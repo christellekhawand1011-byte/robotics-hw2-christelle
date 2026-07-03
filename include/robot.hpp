@@ -45,6 +45,13 @@ public:
     virtual void charge();
 
     /**
+    * @brief Marks the robot as working.
+    *
+    * This is used by Fleet when a task is assigned.
+    */
+    void mark_working();
+
+    /**
      * @brief Returns the robot type.
      *
      * @return A string such as "MobileRobot", "CleaningRobot", or "CookingRobot".

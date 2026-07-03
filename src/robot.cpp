@@ -13,6 +13,10 @@ void Robot::charge() {
     status_ = "charging";
 }
 
+void Robot::mark_working() {
+    status_ = "working";
+}
+
 std::string Robot::id() const {
     return id_;
 }
