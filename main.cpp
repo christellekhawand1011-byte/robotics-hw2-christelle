@@ -114,11 +114,13 @@ void add_robot_menu(Fleet& fleet) {
     std::cout << "2. CleaningRobot\n";
     std::cout << "3. CookingRobot\n";
 
-    int type = read_number<int>("You should enter a number between 1 and 3.\nType: ");
-
-    if (type < 1 || type > 3) {
-        std::cout << "Invalid robot type.\n";
-        return;
+    int type;
+    while (true){
+        type = read_number<int>("Type: ");
+        if (type >= 1 && type <= 3) {
+            break;
+        }
+        std::cout << "Invalid robot type. Please choose 1, 2, or 3.\n";
     }
 
     std::string id = read_non_empty_string("Robot id: ");
