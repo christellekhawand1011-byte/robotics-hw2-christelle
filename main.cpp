@@ -21,13 +21,15 @@ void clear_input() {
 }
 
 /**
- * @brief Reads an integer safely from the user.
+ * @brief Reads a number safely from the user.
  *
+ * @tparam T Type of number to read (int, double, etc.).
  * @param prompt Message shown to the user.
- * @return Valid integer entered by the user.
+ * @return Valid number entered by the user.
  */
-int read_int(const std::string& prompt) {
-    int value;
+template <typename T>
+T read_number(const std::string& prompt) {
+    T value;
 
     while (true) {
         std::cout << prompt;
@@ -43,42 +45,21 @@ int read_int(const std::string& prompt) {
 }
 
 /**
- * @brief Reads a positive integer safely from the user.
+ * @brief Reads a positive number safely from the user.
  *
  * @param prompt Message shown to the user.
- * @return Positive integer entered by the user.
+ * @return Positive number entered by the user.
  */
-int read_positive_int(const std::string& prompt) {
+template <typename T>
+T read_positive_number(const std::string& prompt) {
     while (true) {
-        int value = read_int(prompt);
+        T value = read_number<T>(prompt);
 
         if (value > 0) {
             return value;
         }
 
         std::cout << "Value must be positive.\n";
-    }
-}
-
-/**
- * @brief Reads a double safely from the user.
- *
- * @param prompt Message shown to the user.
- * @return Valid double entered by the user.
- */
-double read_double(const std::string& prompt) {
-    double value;
-
-    while (true) {
-        std::cout << prompt;
-
-        if (std::cin >> value) {
-            clear_input();
-            return value;
-        }
-
-        std::cout << "Invalid input. Please enter a number.\n";
-        clear_input();
     }
 }
 
@@ -133,7 +114,7 @@ void add_robot_menu(Fleet& fleet) {
     std::cout << "2. CleaningRobot\n";
     std::cout << "3. CookingRobot\n";
 
-    int type = read_int("Type: ");
+    int type = read_number<int>("You should enter a number between 1 and 3.\nType: ");
 
     if (type < 1 || type > 3) {
         std::cout << "Invalid robot type.\n";
@@ -142,17 +123,17 @@ void add_robot_menu(Fleet& fleet) {
 
     std::string id = read_non_empty_string("Robot id: ");
     std::string name = read_non_empty_string("Robot name: ");
-    int battery = read_int("Battery level: ");
+    int battery = read_number<int>("Battery level: ");
 
     if (type == 1) {
-        double speed = read_double("Speed: ");
+        double speed = read_positive_number<double>("Speed: ");
         fleet.add(std::make_shared<MobileRobot>(id, name, battery, speed));
         std::cout << "MobileRobot added.\n";
         return;
     }
     else if (type == 2) {
-        double speed = read_double("Speed: ");
-        int brush_power = read_positive_int("Brush power: ");
+        double speed = read_positive_number<double>("Speed: ");
+        int brush_power = read_positive_number<int>("Brush power: ");
 
         fleet.add(std::make_shared<CleaningRobot>(
             id, name, battery, speed, brush_power
@@ -225,7 +206,7 @@ void assign_task_menu(Fleet& fleet) {
     int priority;
 
     while (true) {
-        priority = read_int("Priority from 1 to 5: ");
+        priority = read_number<int>("Priority from 1 to 5: ");
 
         if (priority >= 1 && priority <= 5) {
             break;
@@ -256,7 +237,7 @@ void start_timed_work_menu(const Fleet& fleet) {
         return;
     }
 
-    int seconds = read_positive_int("Duration in seconds: ");
+    int seconds = read_positive_number<int>("Duration in seconds: ");
     mobile_robot->start_work(seconds);
 
     std::cout << "Timed work started. Please wait until it finishes...\n";
@@ -269,7 +250,7 @@ void start_timed_work_menu(const Fleet& fleet) {
  * @param fleet Fleet to search.
  */
 void low_battery_menu(const Fleet& fleet) {
-    int threshold = read_int("Battery threshold: ");
+    int threshold = read_positive_number<int>("Battery threshold: ");
     fleet.find_first_below_battery(threshold);
 }
 
@@ -280,7 +261,7 @@ int main() {
     while (running) {
         print_menu();
 
-        int choice = read_int("Choice: ");
+        int choice = read_number<int>("Choice: ");
 
         try {
             switch (choice) {
