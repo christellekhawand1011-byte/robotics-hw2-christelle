@@ -218,6 +218,8 @@ void charge_single_robot_menu(const Fleet& fleet) {
  */
 void assign_task_menu(Fleet& fleet) {
     std::string robot_id = read_non_empty_string("Robot id: ");
+    fleet.find(robot_id); // Check if robot exists, will throw if not.
+
     std::string task_name = read_non_empty_string("Task name: ");
 
     int priority;
@@ -330,7 +332,7 @@ int main() {
 
                 case 0:
                     running = false;
-                    std::cout << "Goodbye.\n";
+                    std::cout << "Goodbye!\n";
                     break;
 
                 default:
