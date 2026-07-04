@@ -300,7 +300,7 @@ int main() {
 
                 case 5:
                     fleet.work_all();
-                    std::cout << "All robots worked.\n";
+                    std::cout << "Work all command completed.\n";
                     break;
                 
                 case 6:

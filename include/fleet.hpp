@@ -67,6 +67,9 @@ public:
 
     /**
      * @brief Calls work() on every robot in the fleet.
+     * 
+     * If one robot cannot work due to an empty battery,
+     * it will print an error message and continue with the next robot.
      */
     void work_all() const;
 

@@ -69,7 +69,12 @@ void Fleet::show_tasks() const {
 
 void Fleet::work_all() const {
     for (const auto& item : robots_) {
-        item.second->work();
+        try {
+            item.second->work();
+        }
+        catch (const std::runtime_error& e) {
+            std::cout << "Error: " << e.what() << "\n";
+        }
     }
 }
 
